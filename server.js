@@ -10,12 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Health check endpoint
-app.get('/', (req, res) => {
-  console.log('Health check endpoint hit');
-  console.log('Request Headers:', req.headers);
-  res.send('API Gateway is running');
-});
+// Health check
+app.get('/', (req, res) => res.send('API Gateway is running'));
 
 // Product service proxy
 app.use('/products', createProxyMiddleware({
@@ -25,7 +21,4 @@ app.use('/products', createProxyMiddleware({
 }));
 
 // Start server
-app.listen(port, () => {
-  console.log(`API Gateway running on port ${port}`);
-  console.log(`Proxying /products to: ${process.env.PRODUCT_SERVICE_URL || 'http://localhost:3001/products'}`);
-});
+app.listen(port, () => console.log(`Gateway running on port ${port}`));
